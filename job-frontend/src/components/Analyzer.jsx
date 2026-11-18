@@ -5,17 +5,19 @@ export default function Analyzer() {
   const [description, setDescription] = useState('')
   const [prediction, setPrediction] = useState(null)
   const [summary, setSummary] = useState(null)
-  const [loading, setLoading] = useState(false)
+  
+  // SEPARATE LOADING STATES
+  const [loadingML, setLoadingML] = useState(false)
+  const [loadingLLM, setLoadingLLM] = useState(false)
 
   const handlePredict = async () => {
-    // 1. Validation: Check if fields are empty
     if (!title.trim() || !description.trim()) {
       setPrediction("Please enter both a title and description.")
       setSummary(null)
       return
     }
 
-    setLoading(true)
+    setLoadingML(true)
     setPrediction(null)
     setSummary(null)
     
@@ -31,19 +33,18 @@ export default function Analyzer() {
       console.error(error)
       setPrediction("Error connecting to API")
     } finally {
-      setLoading(false)
+      setLoadingML(false)
     }
   }
 
   const handleAnalyze = async () => {
-    // 1. Validation: Check if fields are empty
     if (!title.trim() || !description.trim()) {
       setSummary("Please enter both a title and description.")
       setPrediction(null)
       return
     }
 
-    setLoading(true)
+    setLoadingLLM(true)
     setSummary(null)
     setPrediction(null)
     
@@ -59,7 +60,7 @@ export default function Analyzer() {
       console.error(error)
       setSummary("Error generating AI summary")
     } finally {
-      setLoading(false)
+      setLoadingLLM(false)
     }
   }
 
@@ -68,7 +69,6 @@ export default function Analyzer() {
       <div className="bg-gray-800 p-6 rounded-xl shadow-lg border border-gray-700">
         <h2 className="text-xl font-semibold mb-4 text-white">Job Description Analyzer</h2>
         
-        {/* Changed form to div to prevent submission reloads */}
         <div className="space-y-4">
           <div>
             <label className="block text-sm font-medium text-gray-300 mb-1">Job Title</label>
@@ -95,19 +95,19 @@ export default function Analyzer() {
             <button 
               type="button" 
               onClick={handlePredict} 
-              disabled={loading} 
+              disabled={loadingML || loadingLLM} 
               className="w-full bg-blue-600 hover:bg-blue-700 font-bold py-2 rounded-lg transition disabled:bg-gray-600"
             >
-              {loading ? "Processing..." : "Predict Category (ML)"}
+              {loadingML ? "Processing..." : "Predict Category (ML)"}
             </button>
 
             <button 
               type="button" 
               onClick={handleAnalyze} 
-              disabled={loading} 
+              disabled={loadingML || loadingLLM} 
               className="w-full bg-purple-600 hover:bg-purple-700 font-bold py-2 rounded-lg transition disabled:bg-gray-600"
             >
-              {loading ? "Generating..." : "AI Summary (LLM)"}
+              {loadingLLM ? "Generating..." : "AI Summary (LLM)"}
             </button>
           </div>
         </div>
