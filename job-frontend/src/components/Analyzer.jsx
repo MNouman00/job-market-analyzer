@@ -9,8 +9,18 @@ export default function Analyzer() {
 
   const handlePredict = async (e) => {
     e.preventDefault()
+    
+    // 1. Validation: Check if fields are empty
+    if (!title.trim() || !description.trim()) {
+      setPrediction("Please enter both a title and description.")
+      setSummary(null)
+      return
+    }
+
     setLoading(true)
     setPrediction(null)
+    setSummary(null)
+    
     try {
       const response = await fetch('https://job-market-analyzer-api.onrender.com/predict', {
         method: 'POST',
@@ -29,8 +39,18 @@ export default function Analyzer() {
 
   const handleAnalyze = async (e) => {
     e.preventDefault()
+    
+    // 1. Validation: Check if fields are empty
+    if (!title.trim() || !description.trim()) {
+      setSummary("Please enter both a title and description.")
+      setPrediction(null)
+      return
+    }
+
     setLoading(true)
     setSummary(null)
+    setPrediction(null)
+    
     try {
       const response = await fetch('https://job-market-analyzer-api.onrender.com/analyze', {
         method: 'POST',
@@ -54,30 +74,42 @@ export default function Analyzer() {
         <form className="space-y-4">
           <div>
             <label className="block text-sm font-medium text-gray-300 mb-1">Job Title</label>
-            <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} className="w-full px-4 py-2 bg-gray-900 border border-gray-600 rounded-lg focus:outline-none focus:border-blue-500 text-white" placeholder="e.g. Senior React Developer" />
+            <input 
+              type="text" 
+              value={title} 
+              onChange={(e) => setTitle(e.target.value)} 
+              className="w-full px-4 py-2 bg-gray-900 border border-gray-600 rounded-lg focus:outline-none focus:border-blue-500 text-white" 
+              placeholder="e.g. Senior React Developer" 
+            />
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-300 mb-1">Description</label>
-            <textarea rows="4" value={description} onChange={(e) => setDescription(e.target.value)} className="w-full px-4 py-2 bg-gray-900 border border-gray-600 rounded-lg focus:outline-none focus:border-blue-500 text-white resize-none" placeholder="Paste job description here..."></textarea>
+            <textarea 
+              rows="4" 
+              value={description} 
+              onChange={(e) => setDescription(e.target.value)} 
+              className="w-full px-4 py-2 bg-gray-900 border border-gray-600 rounded-lg focus:outline-none focus:border-blue-500 text-white resize-none" 
+              placeholder="Paste job description here..."
+            ></textarea>
           </div>
           <div className="flex flex-col gap-3">
             <button 
-  type="button" 
-  onClick={handlePredict} 
-  disabled={loading} 
-  className="w-full bg-blue-600 hover:bg-blue-700 font-bold py-2 rounded-lg transition disabled:bg-gray-600"
->
-  {loading ? "Processing..." : "Predict Category (ML)"}
-</button>
+              type="button" 
+              onClick={handlePredict} 
+              disabled={loading} 
+              className="w-full bg-blue-600 hover:bg-blue-700 font-bold py-2 rounded-lg transition disabled:bg-gray-600"
+            >
+              {loading ? "Processing..." : "Predict Category (ML)"}
+            </button>
 
-<button 
-  type="button" 
-  onClick={handleAnalyze} 
-  disabled={loading} 
-  className="w-full bg-purple-600 hover:bg-purple-700 font-bold py-2 rounded-lg transition disabled:bg-gray-600"
->
-  {loading ? "Generating..." : "AI Summary (LLM)"}
-</button>
+            <button 
+              type="button" 
+              onClick={handleAnalyze} 
+              disabled={loading} 
+              className="w-full bg-purple-600 hover:bg-purple-700 font-bold py-2 rounded-lg transition disabled:bg-gray-600"
+            >
+              {loading ? "Generating..." : "AI Summary (LLM)"}
+            </button>
           </div>
         </form>
       </div>
