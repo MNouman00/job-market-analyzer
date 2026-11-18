@@ -61,12 +61,23 @@ export default function Analyzer() {
             <textarea rows="4" value={description} onChange={(e) => setDescription(e.target.value)} className="w-full px-4 py-2 bg-gray-900 border border-gray-600 rounded-lg focus:outline-none focus:border-blue-500 text-white resize-none" placeholder="Paste job description here..."></textarea>
           </div>
           <div className="flex flex-col gap-3">
-            <button onClick={handlePredict} disabled={loading} className="w-full bg-blue-600 hover:bg-blue-700 font-bold py-2 rounded-lg transition disabled:bg-gray-600">
-              {loading ? "Processing..." : "Predict Category (ML)"}
-            </button>
-            <button onClick={handleAnalyze} disabled={loading} className="w-full bg-purple-600 hover:bg-purple-700 font-bold py-2 rounded-lg transition disabled:bg-gray-600">
-              {loading ? "Generating..." : "AI Summary (LLM)"}
-            </button>
+            <button 
+  type="button" 
+  onClick={handlePredict} 
+  disabled={loading} 
+  className="w-full bg-blue-600 hover:bg-blue-700 font-bold py-2 rounded-lg transition disabled:bg-gray-600"
+>
+  {loading ? "Processing..." : "Predict Category (ML)"}
+</button>
+
+<button 
+  type="button" 
+  onClick={handleAnalyze} 
+  disabled={loading} 
+  className="w-full bg-purple-600 hover:bg-purple-700 font-bold py-2 rounded-lg transition disabled:bg-gray-600"
+>
+  {loading ? "Generating..." : "AI Summary (LLM)"}
+</button>
           </div>
         </form>
       </div>
