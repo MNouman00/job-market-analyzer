@@ -7,9 +7,7 @@ export default function Analyzer() {
   const [summary, setSummary] = useState(null)
   const [loading, setLoading] = useState(false)
 
-  const handlePredict = async (e) => {
-    e.preventDefault()
-    
+  const handlePredict = async () => {
     // 1. Validation: Check if fields are empty
     if (!title.trim() || !description.trim()) {
       setPrediction("Please enter both a title and description.")
@@ -37,9 +35,7 @@ export default function Analyzer() {
     }
   }
 
-  const handleAnalyze = async (e) => {
-    e.preventDefault()
-    
+  const handleAnalyze = async () => {
     // 1. Validation: Check if fields are empty
     if (!title.trim() || !description.trim()) {
       setSummary("Please enter both a title and description.")
@@ -71,7 +67,9 @@ export default function Analyzer() {
     <div className="space-y-6">
       <div className="bg-gray-800 p-6 rounded-xl shadow-lg border border-gray-700">
         <h2 className="text-xl font-semibold mb-4 text-white">Job Description Analyzer</h2>
-        <form className="space-y-4">
+        
+        {/* Changed form to div to prevent submission reloads */}
+        <div className="space-y-4">
           <div>
             <label className="block text-sm font-medium text-gray-300 mb-1">Job Title</label>
             <input 
@@ -92,6 +90,7 @@ export default function Analyzer() {
               placeholder="Paste job description here..."
             ></textarea>
           </div>
+          
           <div className="flex flex-col gap-3">
             <button 
               type="button" 
@@ -111,7 +110,8 @@ export default function Analyzer() {
               {loading ? "Generating..." : "AI Summary (LLM)"}
             </button>
           </div>
-        </form>
+        </div>
+        
       </div>
 
       {(prediction || summary) && (
