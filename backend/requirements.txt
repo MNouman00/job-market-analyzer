@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+pydantic
+scikit-learn
+joblib
+redis
+langchain-core
+langchain-groq
+python-dotenv
