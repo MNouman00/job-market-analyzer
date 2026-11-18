@@ -6,7 +6,7 @@ export default function Analyzer() {
   const [prediction, setPrediction] = useState(null)
   const [summary, setSummary] = useState(null)
   
-  // SEPARATE LOADING STATES
+  // Independent loading states
   const [loadingML, setLoadingML] = useState(false)
   const [loadingLLM, setLoadingLLM] = useState(false)
 
@@ -92,20 +92,26 @@ export default function Analyzer() {
           </div>
           
           <div className="flex flex-col gap-3">
+            {/* ML Button - Only turns gray/loading when loadingML is true */}
             <button 
               type="button" 
               onClick={handlePredict} 
               disabled={loadingML || loadingLLM} 
-              className="w-full bg-blue-600 hover:bg-blue-700 font-bold py-2 rounded-lg transition disabled:bg-gray-600"
+              className={`w-full font-bold py-2 rounded-lg transition ${
+                loadingML ? 'bg-gray-600 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'
+              }`}
             >
               {loadingML ? "Processing..." : "Predict Category (ML)"}
             </button>
 
+            {/* LLM Button - Only turns gray/loading when loadingLLM is true */}
             <button 
               type="button" 
               onClick={handleAnalyze} 
               disabled={loadingML || loadingLLM} 
-              className="w-full bg-purple-600 hover:bg-purple-700 font-bold py-2 rounded-lg transition disabled:bg-gray-600"
+              className={`w-full font-bold py-2 rounded-lg transition ${
+                loadingLLM ? 'bg-gray-600 cursor-not-allowed' : 'bg-purple-600 hover:bg-purple-700'
+              }`}
             >
               {loadingLLM ? "Generating..." : "AI Summary (LLM)"}
             </button>
